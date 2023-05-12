@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { NButton, NInput, NPopconfirm, NSelect, useMessage } from 'naive-ui'
-import type { Language, Theme } from '@/store/modules/app/helper'
+import type { Language, ProxyModel, Theme } from '@/store/modules/app/helper'
 import { SvgIcon } from '@/components/common'
 import { useAppStore, useUserStore } from '@/store'
 import type { UserInfo } from '@/store/modules/user/helper'
@@ -35,6 +35,15 @@ const language = computed({
   },
 })
 
+const proxyModel = computed({
+  get() {
+    return appStore.proxyModel
+  },
+  set(value: ProxyModel) {
+    appStore.setProxyModel(value)
+  },
+})
+
 const themeOptions: { label: string; key: Theme; icon: string }[] = [
   {
     label: 'Auto',
@@ -59,6 +68,11 @@ const languageOptions: { label: string; key: Language; value: Language }[] = [
   { label: 'English', key: 'en-US', value: 'en-US' },
   { label: '한국어', key: 'ko-KR', value: 'ko-KR' },
   { label: 'Русский язык', key: 'ru-RU', value: 'ru-RU' },
+]
+
+const modelOptions: { label: string; key: ProxyModel; value: ProxyModel }[] = [
+  { label: 'GPT-3.5', key: 'text-davinci-002-render-sha', value: 'text-davinci-002-render-sha' },
+  { label: 'GPT-4', key: 'gpt-4', value: 'gpt-4' },
 ]
 
 function updateUserInfo(options: Partial<UserInfo>) {
@@ -211,6 +225,17 @@ function handleImportButtonClick(): void {
             :value="language"
             :options="languageOptions"
             @update-value="value => appStore.setLanguage(value)"
+          />
+        </div>
+      </div>
+      <div class="flex items-center space-x-4">
+        <span class="flex-shrink-0 w-[100px]">{{ $t('setting.proxyModel') }}</span>
+        <div class="flex flex-wrap items-center gap-4">
+          <NSelect
+            style="width: 140px"
+            :value="proxyModel"
+            :options="modelOptions"
+            @update-value="value => appStore.setProxyModel(value)"
           />
         </div>
       </div>

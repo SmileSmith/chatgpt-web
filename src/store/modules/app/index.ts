@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import type { AppState, Language, Theme } from './helper'
+import type { AppState, Language, ProxyModel, Theme } from './helper'
 import { getLocalSetting, setLocalSetting } from './helper'
 import { store } from '@/store'
 
@@ -19,6 +19,13 @@ export const useAppStore = defineStore('app-store', {
     setLanguage(language: Language) {
       if (this.language !== language) {
         this.language = language
+        this.recordState()
+      }
+    },
+
+    setProxyModel(proxyModel: ProxyModel) {
+      if (proxyModel !== 'gpt-4') {
+        this.proxyModel = proxyModel
         this.recordState()
       }
     },
