@@ -24,7 +24,7 @@ export const useAppStore = defineStore('app-store', {
     },
 
     setProxyModel(proxyModel: ProxyModel) {
-      if (proxyModel !== 'gpt-4') {
+      if (this.proxyModel !== proxyModel) {
         this.proxyModel = proxyModel
         this.recordState()
       }
