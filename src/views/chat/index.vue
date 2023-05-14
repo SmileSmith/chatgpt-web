@@ -84,11 +84,11 @@ async function onConversation() {
   loading.value = true
   prompt.value = ''
 
-  let options: Chat.ConversationRequest = {}
+  let options: Chat.ConversationRequest = { model: appStore.proxyModel }
   const lastContext = conversationList.value[conversationList.value.length - 1]?.conversationOptions
 
   if (lastContext && usingContext.value)
-    options = { ...lastContext, model: appStore.proxyModel }
+    options = { ...options, ...lastContext }
 
   addChat(
     +uuid,
